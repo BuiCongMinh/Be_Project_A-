@@ -8,14 +8,15 @@ const hostName = process.env.HOST_NAME
 const webRouter = require('./routes/web')
 // const connection = require('./config/database')
 
+// config req.body
+app.use(express.json())
+app.use(express.urlencoded({extended:true}))
 
 // config teamplate engine ! 
 configViewEngine(app)
 
-
 // khai báo router
 app.use('/',webRouter)
-
 
 // connection.query(
 //     'SELECT * FROM Users u',

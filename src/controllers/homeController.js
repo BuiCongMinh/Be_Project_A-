@@ -25,4 +25,29 @@ const getHoiDanIT = (req, res) => {
     res.render('home')
 }
 
-module.exports = { getHomePage, getABC, getHoiDanIT }
+const postCreateUser = async (req, res) => {
+    // let { email, name, city } = req.body
+    let email = req.body.email
+    let name = req.body.name
+    let city = req.body.city
+    // console.log('email = ', email, ',name= ', name, ',city = ', city);
+
+
+    const [results, fields] = await connection.query(
+        `INSERT INTO Users (email, name, city) Values (?,?,?)`,
+        [email, name, city]
+    )
+
+    // console.log('>>> results: ', results);
+
+    res.send('this is create user !!!')
+
+}
+
+
+const getCreateUser = (req, res) => {
+    res.render('create.ejs')
+}
+
+
+module.exports = { getHomePage, getABC, getHoiDanIT, postCreateUser, getCreateUser }
