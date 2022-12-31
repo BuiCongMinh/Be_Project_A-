@@ -1,7 +1,8 @@
 const connection = require('../config/database')
+const { deleteUserById, getAllUser, getUserById, upDateUserById} = require('../services/CRUDService')
 
 
-const getHomePage = (req, res) => {
+const getHomePage = async(req, res) => {
     // let ar = []
     // connection.query(
     //     'SELECT * FROM Users u',
@@ -14,7 +15,12 @@ const getHomePage = (req, res) => {
 
     //     }
     // )
-    return res.render('home.ejs')
+
+    let results = await getAllUser()
+
+    // console.log('>>> results: ',results);
+
+    return res.render('home.ejs',{listUser:results})
 }
 
 const getABC = (req, res) => {
@@ -44,10 +50,40 @@ const postCreateUser = async (req, res) => {
 
 }
 
-
-const getCreateUser = (req, res) => {
+const getCreatePage = (req, res) => {
     res.render('create.ejs')
 }
 
+const getUpdatePage = async(req,res)=>{
+    let userId = req.params.id
+    let user = await getUserById(userId)
+    res.render('edit.ejs',{data : user})
+    
+}
 
-module.exports = { getHomePage, getABC, getHoiDanIT, postCreateUser, getCreateUser }
+const postUpdateUser = async(req,res)=>{
+     // let { email, name, city } = req.body
+     let userId = req.body.userId
+     let email = req.body.email
+     let name = req.body.name
+     let city = req.body.city
+    //  console.log('>>> email = ', email, ',name= ', name, ',city = ', city , 'UserId: ',userId);
+ 
+    await upDateUserById(userId,email,name,city)
+    res.redirect('/')
+}
+
+const postDeleteUser =async (req,res)=>{
+    let userId = req.params.id
+    let user = await getUserById(userId)
+    res.render('delete.ejs',{data:user})
+}
+
+const postHandleRemoveUser = async (req,res)=>{
+    // console.log(83, req.body);
+    await deleteUserById(req.body.userId)
+    // console.log(results);
+    res.redirect('/')
+}
+
+module.exports = { postHandleRemoveUser, getHomePage, getABC, getHoiDanIT, postCreateUser, getCreatePage, getUpdatePage, postUpdateUser, postDeleteUser}
