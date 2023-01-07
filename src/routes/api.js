@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const {getUsersApi,postUsersApi,putUsersApi,deleteUserApi} = require('../controllers/apiHomeController')
+const {postFilesApi,getUsersApi,postUsersApi,putUsersApi,deleteUserApi} = require('../controllers/apiHomeController')
 
 router.get('/', (req,res)=>{
     console.log(12);
@@ -17,5 +17,7 @@ router.post('/user',postUsersApi)
 router.put('/user',putUsersApi)
 
 router.delete('/user',deleteUserApi)
+
+router.post('/file',postFilesApi)
 
 module.exports = router 

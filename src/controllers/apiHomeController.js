@@ -1,5 +1,5 @@
+const path = require('path')
 const User = require('../models/User')
-
 const getUsersApi = async(req, res) => {
 
     let results = await User.find({});
@@ -53,5 +53,24 @@ const deleteUserApi = async (req,res)=>{
     })
 }
 
+const postFilesApi = (req,res)=>{
+ 
+        if (!req.files || Object.keys(req.files).length === 0) {
+            return res.status(400).send('No files were uploaded.');
+        }
+        let image = req.files.image;
+        let uploadPath = path.join(__dirname,`../publics/images/${image.name}`);
+        console.log('>>> uploadPath: ', uploadPath);
 
-module.exports = { getUsersApi, postUsersApi, putUsersApi, deleteUserApi }
+        image.mv(uploadPath, function(err) {
+            if (err)
+              return res.status(500).send(err);
+        
+            res.status(200).json('File uploaded success');
+        });
+
+   
+}
+
+
+module.exports = { postFilesApi,getUsersApi, postUsersApi, putUsersApi, deleteUserApi }
