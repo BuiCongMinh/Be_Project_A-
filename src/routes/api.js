@@ -1,6 +1,6 @@
 const router = require('express').Router()
 const {postMutilFiles,postFilesApi,getUsersApi,postUsersApi,putUsersApi,deleteUserApi} = require('../controllers/apiHomeController')
-const {postCustomers} = require('../controllers/custommerController')
+const {deleteArrayCustomers,deleteACustomer,putCustomers,getCustomers,postCustomers,postManyCustomers} = require('../controllers/custommerController')
 
 router.get('/', (req,res)=>{
     console.log(12);
@@ -20,5 +20,12 @@ router.post('/file',postFilesApi)
 router.post('/files',postMutilFiles)
 
 router.post('/customers',postCustomers)
+router.post('/customers-many',postManyCustomers)
+router.get('/customers',getCustomers)
+router.put('/customers/:id',putCustomers)
+router.delete('/customers',deleteACustomer)
+router.delete('/customers-many',deleteArrayCustomers)
+
+
 
 module.exports = router 

@@ -35,4 +35,3 @@ app.use('/api/',api);        // lưu ý là trước mỗi funtion vo danh phả
     }
 
 })()
-

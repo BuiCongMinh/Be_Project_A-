@@ -1,16 +1,82 @@
 const Customer = require('../models/Customer')
 
-const createCustommer = async (customerData)=>{
+const createCustommer = async (customerData) => {
     // console.log(">>>customerData: ", customerData);
-
     try {
         // console.log(">>>data:", data);
-        let result =  await Customer.create(customerData)
-        return(result) 
+        let result = await Customer.create(customerData)
+        return (result)
     } catch (error) {
         console.log('>>>error:', error);
         return null
     }
 }
 
-module.exports={createCustommer}
+const createManyCustomer = async (array) => {
+    try {
+        let reuslt = await Customer.insertMany(array)
+        return reuslt
+
+    } catch (error) {
+        console.log('>>>Server error:', error);
+        return error
+    }
+}
+
+const getAllCustomer = async (limit, page) => {
+    try {
+        console.log(limit, page);
+        let result = null
+        if (limit && page) {
+            let offset = (page-1) * limit
+            console.log(">>>skip: ",offset);
+            result = await Customer.find({}).skip(offset).limit(limit).exec() // gọi exec() sẽ đảm bảo đoạn code chạy đúng với async await 
+        }
+        else{
+            result = await Customer.find({})
+        }
+
+        return result
+
+    } catch (error) {
+        console.log('>>>Server error:', error);
+        return error
+    }
+}
+
+const updateCustomer = async (body, params) => {
+    try {
+        // console.log(body, params);
+        let result = await Customer.updateOne({ _id: params.id }, body)
+        return result
+    } catch (error) {
+        console.log('>>>Server error:', error);
+        return error
+    }
+
+}
+
+const deleteACustomer = async (idCustomer) => {
+    try {
+        let result = await Customer.deleteById(idCustomer)
+        return result
+    } catch (error) {
+        // console.log('>>>error:', error);
+        return { error, EC: -1 }
+    }
+
+}
+
+const deleteManyCustomers = async (arId) => {
+    try {
+        let result = await Customer.delete({ _id: { $in: arId } });
+        return result
+    } catch (error) {
+        console.log('>>>error:', error);
+        return { error, EC: -1 }
+    }
+
+}
+
+
+module.exports = { deleteManyCustomers, deleteACustomer, updateCustomer, createCustommer, createManyCustomer, getAllCustomer }
