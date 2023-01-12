@@ -55,15 +55,24 @@ module.exports = {
     },
 
     getCustomers: async (req, res) => {
-        console.log(">>>req.query:", req.query);
+        // const query = aqp(
+        //     'status=sent&timestamp>2016-01-01&author.firstName=/john/i&limit=100&skip=50&sort=-timestamp&populate=logs&fields=id,logs.ip'
+        //   );
+        // res.json(query)
+        // console.log(">>>query", query);
+
+        // console.log(">>>limit,page, name:", limit, page, name);
+        // console.log(">>>req.query:", req.query);
         let limit = req.query.limit
         let page = req.query.page
+        let name = req.query.name
+
         let customer = null
 
         if (limit && page) {
-            customer = await getAllCustomer(limit, page)
-            
-            console.log(">>>customer:", customer);
+            customer = await getAllCustomer(limit, page, name, req.query)
+
+            // console.log(">>>customer:", customer);
         }
         else{
             customer = await getAllCustomer()

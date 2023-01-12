@@ -1,4 +1,6 @@
 const Customer = require('../models/Customer')
+const aqp = require('api-query-params')
+
 
 const createCustommer = async (customerData) => {
     // console.log(">>>customerData: ", customerData);
@@ -23,16 +25,22 @@ const createManyCustomer = async (array) => {
     }
 }
 
-const getAllCustomer = async (limit, page) => {
+const getAllCustomer = async (limit, page, name, queryString) => {
     try {
-        console.log(limit, page);
+        // console.log(limit, page);
         let result = null
         if (limit && page) {
-            let offset = (page-1) * limit
-            console.log(">>>skip: ",offset);
-            result = await Customer.find({}).skip(offset).limit(limit).exec() // gọi exec() sẽ đảm bảo đoạn code chạy đúng với async await 
+            let offset = (page - 1) * limit
+            const { filter } = aqp(queryString);
+            delete filter.page
+
+            
+            console.log(">>>filler: ", filter);
+            result = await Customer.find(filter).skip(offset).limit(limit).exec() // gọi exec() sẽ đảm bảo đoạn code chạy đúng với async await 
+
+
         }
-        else{
+        else {
             result = await Customer.find({})
         }
 
