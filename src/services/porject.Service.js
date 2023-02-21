@@ -56,9 +56,12 @@ const createProjectService = async (body) => {
         // add task vào project 
         if (body.type === "ADD-TASKS"){
             let myProject = await Project.findById(body.projectId).exec();
-            console.log('hêlo',myProject);
+            // console.log('hêlo',myProject);
             for (let i = 0; i < body.taskArr.length; i++) {
-                myProject.taskId.push(body.taskArr[i]);
+                if (myProject.taskId.indexOf(body.taskArr[i]) === -1) {
+                    myProject.taskId.push(body.taskArr[i])
+                }
+               
             }
             let newRsult  = await myProject.save();
             return newRsult;

@@ -1,51 +1,30 @@
 const { uploadSingleFile } = require('../services/fileServices')
 const { deleteManyCustomers, deleteACustomer, updateCustomer, getAllCustomer, createCustommer, createManyCustomer } = require('../services/custommerServices')
 
-const Joi = require()
+const Joi = require('joi')
 
 module.exports = {
     postCustomers: async (req, res) => {
         let { name, address, phone, email, description } = req.body
 
         const schema = Joi.object({
-            username: Joi.string()
+            name: Joi.string()
                 .alphanum()
                 .min(3)
                 .max(30)
                 .required(),
 
-            password: Joi.string()
-                .pattern(new RegExp('^[a-zA-Z0-9]{3,30}$')),
+            address: Joi.string(),
+            phone: Joi.string().pattern(new RegExp('^[0-9]{8,11}$')),
+            email: Joi.string().email(),
+            description: Joi.string()
 
-            repeat_password: Joi.ref('password'),
-
-            access_token: [
-                Joi.string(),
-                Joi.number()
-            ],
-
-            birth_year: Joi.number()
-                .integer()
-                .min(1900)
-                .max(2013),
-
-            email: Joi.string()
-                .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net'] } })
         })
 
-        // console.log(">>>req.body," , req.body);
-        // console.log(">>>name: ",name);
-        // console.log(">>>image: ", req.files);
-
-        // {
-        //     name: { type: String, require: true },
-        //     address: { type: String, require: true },
-        //     phone: Number,
-        //     email: String,
-        //     image: String,
-        //     description: String
-
-        // }, 
+        let { error } = schema.validate(req.body, { abortEarly: false })
+        if (error) {
+            return res.json({ msg: error })
+        }
 
         let urlImage = ''
         if (!req.files || Object.keys(req.files).length === 0) {

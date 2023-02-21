@@ -3,8 +3,9 @@ const aqp = require('api-query-params')
 
 module.exports = {
     createTask: async(body)=>{
+        // console.log('>>>check body:', body);
         let result = null
-        if(body.type === 'EMPTY-TASK'){
+        if(body.type === 'EMPTY-TAKS'){
             result = await Task.create({
                 nameTask: body.name,
                 description:body.description,
@@ -12,8 +13,11 @@ module.exports = {
                 startDate: body.startDate,
                 endDate: body.endDate
             })
+            // console.log('>>> checkResult: ', result);
+            return newRsult = await result.save()
         }
-        return result
+
+        throw 'this is wrong type'
     }
     ,
     getTask : async (query)=>{
