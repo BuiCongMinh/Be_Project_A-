@@ -11,8 +11,8 @@ const customerSchema = new mongoose.Schema({
 
 },
     {
-        timestamps: true,// tạo thêm các trường {createAt:(hiện thị thời gian tạo data),updateAt:(hiện thị thời gian update data)}
-        statics: {
+        timestamps: true, // tạo thêm các trường {createAt:(hiện thị thời gian tạo data),updateAt:(hiện thị thời gian update data)}
+        statics: {   // static:  dùng để tái sử dụng hàm cho model Customer
             findByName(name) {
                 return this.find({ name: new RegExp(name, 'i') });
             },

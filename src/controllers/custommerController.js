@@ -1,9 +1,38 @@
 const { uploadSingleFile } = require('../services/fileServices')
 const { deleteManyCustomers, deleteACustomer, updateCustomer, getAllCustomer, createCustommer, createManyCustomer } = require('../services/custommerServices')
 
+const Joi = require()
+
 module.exports = {
     postCustomers: async (req, res) => {
         let { name, address, phone, email, description } = req.body
+
+        const schema = Joi.object({
+            username: Joi.string()
+                .alphanum()
+                .min(3)
+                .max(30)
+                .required(),
+
+            password: Joi.string()
+                .pattern(new RegExp('^[a-zA-Z0-9]{3,30}$')),
+
+            repeat_password: Joi.ref('password'),
+
+            access_token: [
+                Joi.string(),
+                Joi.number()
+            ],
+
+            birth_year: Joi.number()
+                .integer()
+                .min(1900)
+                .max(2013),
+
+            email: Joi.string()
+                .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net'] } })
+        })
+
         // console.log(">>>req.body," , req.body);
         // console.log(">>>name: ",name);
         // console.log(">>>image: ", req.files);
@@ -74,10 +103,10 @@ module.exports = {
 
             // console.log(">>>customer:", customer);
         }
-        else{
+        else {
             customer = await getAllCustomer()
         }
-        
+
         return res.status(200).json({
             EC: 0,
             data: customer

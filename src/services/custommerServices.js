@@ -33,11 +33,9 @@ const getAllCustomer = async (limit, page, name, queryString) => {
             let offset = (page - 1) * limit
             const { filter } = aqp(queryString);
             delete filter.page
-
-            
+   
             console.log(">>>filler: ", filter);
             result = await Customer.find(filter).skip(offset).limit(limit).exec() // gọi exec() sẽ đảm bảo đoạn code chạy đúng với async await 
-
 
         }
         else {

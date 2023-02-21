@@ -1,0 +1,42 @@
+Create roomChat
+POST /api/roomChat
+
+
+--------UpDate Project -----
+
+{
+    "type": "EMPTY-PROJECT",
+    "name": "test Name room 1",
+    "startDate": "13/2/2023",
+    "endDate": "1/4/2023",
+    "description": "just a test project",
+    "custommer": {
+        "name": "minhvn",
+        "email": "minhvnvnvn1998@gmail.com",
+        "phone": "0975284926"
+    },
+    "leader": {
+        "name": "minhvn",
+        "email": "minhvnvnvn1234@gamil.com"
+    }
+}
+
+
+
+{   
+    "type": "ADD-USERS",
+    "projectID":"63e9b1532ab995cba4c099a8",
+    "userArray":["63e9bc6faef5b2e52fb450d6","63e9bc73aef5b2e52fb450d8","63e9bc7faef5b2e52fb450da"]
+}
+
+
+
+{   
+    "type": "REMOVE-USER",
+    "userArray":["63e9bc6faef5b2e52fb450d6"],
+    "projectID":"63e9b1532ab995cba4c099a8"
+}
+
+
+--------UpDate Project -----
+
